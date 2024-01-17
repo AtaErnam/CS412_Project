@@ -1,1 +1,222 @@
 # CS412_Project
+
+
+---
+
+# Machine Learning Homework Grading System
+
+## Overview of the Repository
+Our project consists of several scripts and modules that collectively build a machine learning system to grade homework based on students' interactions with ChatGPT. Key components include:
+
+- ## **HTML Parsing**: Extracting conversation data from HTML files using BeautifulSoup.
+```python
+data_path = "data/html/*.html"
+
+code2convos = dict()
+
+pbar = tqdm.tqdm(sorted(list(glob(data_path))))
+for path in pbar:
+    # print(Path.cwd() / path)
+    file_code = os.path.basename(path).split(".")[0]
+    with open(path, "r", encoding="latin1") as fh:
+
+        # get the file id to use it as key later on
+        fid = os.path.basename(path).split(".")[0]
+
+        # read the html file
+        html_page = fh.read()
+
+        # parse the html file with bs4 so we can extract needed stuff
+        soup = BeautifulSoup(html_page, "html.parser")
+
+        # grab the conversations with the data-testid pattern
+        data_test_id_pattern = re.compile(r"conversation-turn-[0-9]+")
+        conversations = soup.find_all("div", attrs={"data-testid": data_test_id_pattern})
+
+        convo_texts = []
+
+        for i, convo in enumerate(conversations):
+            convo = convo.find_all("div", attrs={"data-message-author-role":re.compile( r"[user|assistant]") })
+            if len(convo) > 0:
+                role = convo[0].get("data-message-author-role")
+                convo_texts.append({
+                        "role" : role,
+                        "text" : convo[0].text
+                    }
+                )
+
+        code2convos[file_code] = convo_texts
+```
+- ## **Data Preprocessing**: Utilizing `pandas`, `numpy`, and `nltk` for data cleaning, manipulation, and natural language processing.
+- ## **Feature Engineering**: For feature engineering, we used nltk library to tokenize sentences then we trained a word2vec model.
+```python
+nltk.download('punkt')
+
+# Tokenize sentences and create a flat list of sentences
+sentence_load = []
+test_list = list(code2prompts.values())
+test_list.append(questions)
+for sentences in test_list:
+    for sentence in sentences:
+        # Tokenize each sentence
+        tokenized_sentence = nltk.word_tokenize(sentence)
+        sentence_load.append(tokenized_sentence)
+
+vector_size = 600
+window = 5
+min_count = 2
+
+hw_grading_word2vec_model = Word2Vec(
+    sentences=sentence_load,
+    vector_size=vector_size,
+    window=window,
+    min_count= min_count,
+    workers=10
+)
+hw_grading_word2vec_model
+```
+This code is designed to vectorize textual data (user prompts and questions) using a word2vec model. Each sentence is converted into a vector by averaging the vectors of the words it contains. 
+```python
+def vectorize_sentence(prompt): ## Each sentence of prompt being vectorized
+  user_vector_list = list([])
+  for sentence in prompt:
+    tokens = sentence.split()
+    word_vectors = [hw_grading_word2vec_model.wv[word] for word in tokens if word in hw_grading_word2vec_model.wv]
+    if not word_vectors:
+      user_vector_list.append(np.zeros(hw_grading_word2vec_model.vector_size))
+      continue
+    user_vector_list.append(np.mean(word_vectors, axis=0))
+  return user_vector_list
+
+code2prompts_word2vec = dict()
+for code, user_prompts in code2prompts.items():
+  if len(user_prompts) == 0:
+      print(code+".html")
+      continue
+  prompts_word2Vec = pd.DataFrame(vectorize_sentence(user_prompts))
+  code2prompts_word2vec[code] = prompts_word2Vec
+
+questions_word2Vec = pd.DataFrame(vectorize_sentence(questions)) #Questions vectorized
+
+```
+After this process we vectorize user prompts, questions and map them to different dictionaries which are present in the trained word2vec model.
+```python
+code2questionmapping_word2vec = dict()
+for code, cosine_scores in code2cosine_word2vec.items():
+    code2questionmapping_word2vec[code] = code2cosine_word2vec[code].max(axis=1).tolist()
+
+
+question_mapping_scores_word2vec = pd.DataFrame(code2questionmapping_word2vec).T
+question_mapping_scores_word2vec.reset_index(inplace=True)
+question_mapping_scores_word2vec.rename(columns={i: f"Q_{i}" for i in range(len(questions))}, inplace=True)
+question_mapping_scores_word2vec.rename(columns={"index" : "code"}, inplace=True)
+
+question_mapping_scores_word2vec #Similarity matrix between questions and prompts of user
+```
+Then, we look at the cosine similarity between the user prompts and questions using the dictionaries.
+
+```python
+code2features = defaultdict(lambda : defaultdict(int))
+
+keywords2search = ["error", "no", "thank", "next", "Entropy","how"]
+keywords2search = [k.lower() for k in keywords2search]
+
+for code, convs in code2convos.items():
+  if len(convs) == 0:
+      print(code)
+      continue
+  for c in convs:
+    text = c["text"].lower()
+    if c["role"] == "user":
+        # User Prompts
+
+        # count the user prompts
+        code2features[code]["#user_prompts"] += 1
+
+        # count the keywords
+        for kw in keywords2search:
+            code2features[code][f"#{kw}"] +=  len(re.findall(rf"\b{kw}\b", text))
+
+        code2features[code]["prompt_avg_chars"] += len(text)
+
+        text = re.sub(r'[^\w\s]', '', text)
+        words = text.split()
+        blob = TextBlob(text)
+        code2features[code]["unique_avg_chars"] += len(words)
+        code2features[code]["sentiment_point"] += blob.sentiment.polarity
+
+    else:
+        # ChatGPT Responses
+        code2features[code]["response_avg_chars"] += len(text)
+        code2features[code]["response_unique_avg_chars"] += len(words)
+
+    code2features[code]["prompt_avg_chars"] /= code2features[code]["#user_prompts"]
+    code2features[code]["response_avg_chars"] /= code2features[code]["#user_prompts"]
+    code2features[code]["unique_avg_chars"] /= code2features[code]["#user_prompts"]
+    code2features[code]["sentiment_point"] /= code2features[code]["#user_prompts"]
+    code2features[code]["response_unique_avg_chars"] /= code2features[code]["#user_prompts"]
+```
+This script is a text analysis tool, which we used for extracting features like keyword frequency, character count, word count, and sentiment from conversations. These features are calculated separately for user prompts and ChatGPT responses.
+
+In order to compare the scores of the students with the other features of the word2vec model, we extracted the code and grade from the scores table, later which we merged the table with our question mapping table that was made from the word2vec model.
+
+```python
+# reading the scores
+scores = pd.read_csv("data/scores.csv", sep=",")
+scores["code"] = scores["code"].apply(lambda x: x.strip())
+
+# selecting the columns we need and we care
+scores = scores[["code", "grade"]]
+
+# show examples
+scores.head()
+```
+This part is where we extracted the scores and code
+```python
+df_word2vec.reset_index(inplace=True, drop=False)
+df_word2vec.rename(columns={"index": "code"}, inplace=True)
+
+df_word2vec.head()
+
+df_word2vec = pd.merge(df_word2vec, question_mapping_scores_word2vec, on="code", how="left")
+df_word2vec.head()
+
+temp_df_word2vec = pd.merge(df_word2vec, scores, on='code', how="left")
+temp_df_word2vec.dropna(inplace=True)
+temp_df_word2vec.drop_duplicates("code",inplace=True, keep="first")
+
+temp_df_word2vec.head()
+```
+And these are the parts were we merged them with the question mapping table
+
+- ## **Machine Learning Models**: Several models like Decision Tree Regressor, Random Forest Regressor, Gradient Boosting Regressor, XGBoost Regressor, and CatBoost Regressor are developed and evaluated.
+
+- ## **Evaluation and Tuning**: Model evaluation using metrics like Mean Squared Error (MSE) and R-squared, and hyperparameter tuning using GridSearchCV.
+
+## Methodology
+The project adopts a structured approach to grade homework. It involves:
+
+1. Parsing HTML files to extract conversation texts.
+2. Performing prompt matching using and Word2Vec methods.
+3. Engineering features like the number of user prompts, average prompt length, etc.
+4. Splitting data into training and testing sets.
+5. Developing and tuning various machine learning models to predict grades.
+6. Evaluating model performance through metrics like MSE and R-squared.
+
+## Results
+The project's effectiveness is evaluated by comparing the predicted grades against actual grades. Key observations include:
+
+- **Model Comparison**: A comparison of different models (Decision Tree, Random Forest, etc.) based on error metrics.
+- **Feature Impact**: Analysis of how different features influence the model's predictions.
+- **Model Tuning and Evaluation**: Insights from hyperparameter tuning and their impact on model performance.
+
+(Supporting figures and tables will be included upon availability.)
+
+## Team Contributions
+- **[Team Member 1]**: Focused on HTML data parsing and initial data preprocessing.
+- **[Team Member 2]**: Implemented feature engineering and Word2Vec model training.
+- **[Team Member 3]**: Developed and tuned the Decision Tree and Random Forest models.
+- **[Team Member 4]**: Conducted model evaluation, comparison, and documentation.
+
+---
+
