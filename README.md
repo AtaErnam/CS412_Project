@@ -118,7 +118,7 @@ Then, we look at the cosine similarity between the user prompts and questions us
 ```python
 code2features = defaultdict(lambda : defaultdict(int))
 
-keywords2search = ["error", "no", "thank", "next", "Entropy","how"]
+keywords2search = ["error", "no", "next", "Entropy","how"]
 keywords2search = [k.lower() for k in keywords2search]
 
 for code, convs in code2convos.items():
@@ -195,17 +195,46 @@ And these are the parts were we merged them with the question mapping table
 model_word2vec_init = DecisionTreeRegressor(criterion='squared_error', random_state=42)
 model_word2vec_init.fit(X_train_word2vec, y_train_word2vec)
 # word2vec Decision Tree Regressor Model evaluation
-y_pred_word2vec_init = model_word2vec_init.predict(X_test_word2vec)
+y_pred_word2vec_init_test = model_word2vec_init.predict(X_test_word2vec)
 
-mae_word2vec_init = mean_absolute_error(y_test_word2vec, y_pred_word2vec_init)
-mse_word2vec_init = mean_squared_error(y_test_word2vec, y_pred_word2vec_init)
-rmse_word2vec_init = np.sqrt(mse_word2vec_init)
-r2_word2vec_init = r2_score(y_test_word2vec, y_pred_word2vec_init)
+#Limit the range between 0-100
+for index in range(len(y_pred_word2vec_init_test)):
+  if y_pred_word2vec_init_test[index] < 0:
+    y_pred_word2vec_init_test[index] = 0
+  elif y_pred_word2vec_init_test[index] > 100:
+    y_pred_word2vec_init_test[index] = 100
 
-print(f"Mean Absolute Error (MAE): {mae_word2vec_init}")
-print(f"Mean Squared Error (MSE): {mse_word2vec_init}")
-print(f"Root Mean Squared Error (RMSE): {rmse_word2vec_init}")
-print(f"R-squared: {r2_word2vec_init}")
+#Test Results
+mae_word2vec_init_test = mean_absolute_error(y_test_word2vec, y_pred_word2vec_init_test)
+mse_word2vec_init_test = mean_squared_error(y_test_word2vec, y_pred_word2vec_init_test)
+rmse_word2vec_init_test = np.sqrt(mse_word2vec_init_test)
+r2_word2vec_init_test = r2_score(y_test_word2vec, y_pred_word2vec_init_test)
+
+print(f"Mean Absolute Error (MAE) Test: {mae_word2vec_init_test}")
+print(f"Mean Squared Error (MSE) Test: {mse_word2vec_init_test}")
+print(f"Root Mean Squared Error (RMSE) Test: {rmse_word2vec_init_test}")
+print(f"R-squared Test: {r2_word2vec_init_test}")
+print(f"Predicted values for testing:{y_pred_word2vec_init_test}")
+
+#Train Results
+y_pred_word2vec_init_train = model_word2vec_init.predict(X_train_word2vec)
+#Limit the range between 0-100
+for index in range(len(y_pred_word2vec_init_train)):
+  if y_pred_word2vec_init_train[index] < 0:
+    y_pred_word2vec_init_train[index] = 0
+  elif y_pred_word2vec_init_train[index] > 100:
+    y_pred_word2vec_init_train[index] = 100
+
+mae_word2vec_init_train = mean_absolute_error(y_train_word2vec, y_pred_word2vec_init_train)
+mse_word2vec_init_train = mean_squared_error(y_train_word2vec, y_pred_word2vec_init_train)
+rmse_word2vec_init_train = np.sqrt(mse_word2vec_init_train)
+r2_word2vec_init_train = r2_score(y_train_word2vec, y_pred_word2vec_init_train)
+
+print(f"<---------->\nMean Absolute Error (MAE) Train: {mae_word2vec_init_train}")
+print(f"Mean Squared Error (MSE) Train: {mse_word2vec_init_train}")
+print(f"Root Mean Squared Error (RMSE) Train: {rmse_word2vec_init_train}")
+print(f"R-squared Train: {r2_word2vec_init_train}")
+print(f"Predicted values for training:{y_pred_word2vec_init_train}")
 ```
 This code is for the initial training of the Decision Tree Regression model, in which we make predictions according to the model.
 ```python
@@ -286,22 +315,50 @@ grid_search_decision_tree_tune.fit(X_train_word2vec, y_train_word2vec)
 model_word2vec_tuned = DecisionTreeRegressor(
     criterion='squared_error',
     random_state=42,
-    max_depth=6,
-    min_samples_split=60
+    max_depth=grid_search_decision_tree_tune.best_params_['max_depth'],
+    min_samples_split=grid_search_decision_tree_tune.best_params_['min_samples_split']
 )
 
 model_word2vec_tuned.fit(X_train_word2vec, y_train_word2vec)
-y_pred_word2vec_tuned = model_word2vec_tuned.predict(X_test_word2vec)
+#Test Results
+y_pred_word2vec_tuned_test = model_word2vec_tuned.predict(X_test_word2vec)
+#Limit the range between 0-100
+for index in range(len(y_pred_word2vec_tuned_test)):
+  if y_pred_word2vec_tuned_test[index] < 0:
+    y_pred_word2vec_tuned_test[index] = 0
+  elif y_pred_word2vec_tuned_test[index] > 100:
+    y_pred_word2vec_tuned_test[index] = 100
 
-mae_word2vec_tuned = mean_absolute_error(y_test_word2vec, y_pred_word2vec_tuned)
-mse_word2vec_tuned = mean_squared_error(y_test_word2vec, y_pred_word2vec_tuned)
-rmse_word2vec_tuned = np.sqrt(mse_word2vec_tuned)
-r2_word2vec_tuned = r2_score(y_test_word2vec, y_pred_word2vec_tuned)
 
-print(f"Mean Absolute Error (MAE): {mae_word2vec_tuned}")
-print(f"Mean Squared Error (MSE): {mse_word2vec_tuned}")
-print(f"Root Mean Squared Error (RMSE): {rmse_word2vec_tuned}")
-print(f"R-squared: {r2_word2vec_tuned}")
+mae_word2vec_tuned_test = mean_absolute_error(y_test_word2vec, y_pred_word2vec_tuned_test)
+mse_word2vec_tuned_test = mean_squared_error(y_test_word2vec, y_pred_word2vec_tuned_test)
+rmse_word2vec_tuned_test = np.sqrt(mse_word2vec_tuned_test)
+r2_word2vec_tuned_test = r2_score(y_test_word2vec, y_pred_word2vec_tuned_test)
+
+print(f"Mean Absolute Error (MAE) Test: {mae_word2vec_tuned_test}")
+print(f"Mean Squared Error (MSE) Test: {mse_word2vec_tuned_test}")
+print(f"Root Mean Squared Error (RMSE) Test: {rmse_word2vec_tuned_test}")
+print(f"R-squared Test: {r2_word2vec_tuned_test}")
+print(f"Predicted values for testing: {y_pred_word2vec_tuned_test}")
+#Train Results
+y_pred_word2vec_tuned_train = model_word2vec_init.predict(X_train_word2vec)
+#Limit the range between 0-100
+for index in range(len(y_pred_word2vec_tuned_train)):
+  if y_pred_word2vec_tuned_train[index] < 0:
+    y_pred_word2vec_tuned_train[index] = 0
+  elif y_pred_word2vec_tuned_train[index] > 100:
+    y_pred_word2vec_tuned_train[index] = 100
+
+mae_word2vec_tuned_train = mean_absolute_error(y_train_word2vec, y_pred_word2vec_tuned_train)
+mse_word2vec_tuned_train = mean_squared_error(y_train_word2vec, y_pred_word2vec_tuned_train)
+rmse_word2vec_tuned_train = np.sqrt(mse_word2vec_tuned_train)
+r2_word2vec_tuned_train = r2_score(y_train_word2vec, y_pred_word2vec_tuned_train)
+
+print(f"<---------->\nMean Absolute Error (MAE) Train: {mae_word2vec_tuned_train}")
+print(f"Mean Squared Error (MSE) Train: {mse_word2vec_tuned_train}")
+print(f"Root Mean Squared Error (RMSE) Train: {rmse_word2vec_tuned_train}")
+print(f"R-squared Train: {r2_word2vec_tuned_train}")
+print(f"Predicted values for training: {y_pred_word2vec_tuned_train}")
 ```
 
 ## Methodology
