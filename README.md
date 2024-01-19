@@ -261,12 +261,48 @@ for min_samples_split in min_samples_split_arr:
   val_error_arr_min_samples_split.append(val_score_mean)
 ```
 Then, we do a hyperparameter tuning via cross-validation check for all minimum sample split values to get the validation error. This code is essential for optimizing model and ensuring their generalizability to unseen data.
-
-
-
-
-
 - ## **Evaluation and Tuning**: Model evaluation using metrics like Mean Squared Error (MSE) and R-squared, and hyperparameter tuning using GridSearchCV.
+```python
+#Hyper parameter search space
+param_grid = {
+    'max_depth': [i for i in range(6,15)],
+    'min_samples_split': [j for j in range(60,75)]
+}
+
+estimator = DecisionTreeRegressor(criterion='squared_error', random_state=42)
+scoring='neg_mean_squared_error'
+cv = 5
+
+grid_search_decision_tree_tune = GridSearchCV(
+    estimator=estimator,
+    param_grid=param_grid,
+    scoring=scoring,
+    cv=cv
+)
+grid_search_decision_tree_tune.fit(X_train_word2vec, y_train_word2vec)
+```
+```python
+#Use parameters that were the best from previous part
+model_word2vec_tuned = DecisionTreeRegressor(
+    criterion='squared_error',
+    random_state=42,
+    max_depth=6,
+    min_samples_split=60
+)
+
+model_word2vec_tuned.fit(X_train_word2vec, y_train_word2vec)
+y_pred_word2vec_tuned = model_word2vec_tuned.predict(X_test_word2vec)
+
+mae_word2vec_tuned = mean_absolute_error(y_test_word2vec, y_pred_word2vec_tuned)
+mse_word2vec_tuned = mean_squared_error(y_test_word2vec, y_pred_word2vec_tuned)
+rmse_word2vec_tuned = np.sqrt(mse_word2vec_tuned)
+r2_word2vec_tuned = r2_score(y_test_word2vec, y_pred_word2vec_tuned)
+
+print(f"Mean Absolute Error (MAE): {mae_word2vec_tuned}")
+print(f"Mean Squared Error (MSE): {mse_word2vec_tuned}")
+print(f"Root Mean Squared Error (RMSE): {rmse_word2vec_tuned}")
+print(f"R-squared: {r2_word2vec_tuned}")
+```
 
 ## Methodology
 Our project adopts a structured approach to grade homework. It involves:
