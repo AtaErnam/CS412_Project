@@ -407,9 +407,8 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 - **Feature Impact**: Analysis of how different features influence the model's predictions.
 - **Model Tuning and Evaluation**: Insights from hyperparameter tuning and their impact on model performance.
 
-- **Clustering**
-    - We employed K-means clustering for a different approach. The data was first scaled to standardize the feature space, and then K-Means was applied to identify clusters between prompts and key-words.
-    - Silhouette Score: 0.24
+- **Clustering**: We employed K-means clustering for a different approach. The data was first scaled to standardize the feature space, and then K-Means was applied to identify clusters between prompts and key-words.
+  *Silhouette Score: 0.24
 
 
 (Supporting figures and tables will be included upon availability.)
