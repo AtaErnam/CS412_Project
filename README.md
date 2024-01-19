@@ -308,11 +308,12 @@ print(f"R-squared: {r2_word2vec_tuned}")
 Our project adopts a structured approach to grade homework. It involves:
 
 1. Parsing HTML files to extract conversation texts.
-2. Performing prompt matching using and Word2Vec methods.
-3. Engineering features like the number of user prompts, average prompt length, etc.
-4. Splitting data into training and testing sets.
-5. Developing and tuning various machine learning models to predict grades.
-6. Evaluating model performance through metrics like MSE and R-squared.
+2. Pre-processing the data.
+3. Performing prompt matching using and Word2Vec methods.
+4. Engineering features like the number of user prompts, average prompt length, etc.
+5. Splitting data into training and testing sets.
+6. Developing and tuning various machine learning models to predict grades.
+7. Evaluating model performance through metrics like MSE and R-squared.
 
 ## Results
 The project's effectiveness is evaluated by comparing the predicted grades against actual grades. Key observations include:
@@ -331,7 +332,7 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 - **Model Tuning and Evaluation**: Insights from hyperparameter tuning and their impact on model performance.
 - 
 - **Model Train with Processed Data**
-- In our model with initial data preprocessing:
+- Decision Tree Regressor with pre-processed data:
 - Mean Squared Error Train (MSE Train): 3.43
 - Mean Squared Error Test (MSE Test): 120.9
 - After doing Decision Tree Regressor with processed data:
@@ -342,7 +343,7 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 ## Team Contributions
 - **[Eren Yiğit Yaşar]**: Implemented feature engineering and Word2Vec model training, also added Decision Tree Regression models.
 - **[Ata Ernam]**: Helped with developing and tunining the Decision Tree and Random Forest models.
-- **[Team Member 4]**: Conducted model evaluation, comparison, and documentation.
+- **[Melike Soytürk]**: Helped with the pre-processing and worked on the Decision Tree Regressor.
 - 
 - 
 
