@@ -317,7 +317,16 @@ Our project adopts a structured approach to grade homework. It involves:
 ## Results
 The project's effectiveness is evaluated by comparing the predicted grades against actual grades. Key observations include:
 
-- **Model Comparison**: A comparison of different models (Decision Tree, Random Forest, etc.) based on error metrics.
+**Model Comparison**
+- In our inital word2vec Decision Tree Regression Model evaluation:
+- Mean Absolute Error (MAE): 6.12
+- Mean Squared Error (MSE): 121.16
+- Root Mean Squared Error (RMSE): 11.00727032465361
+- R-squared: -0.07922640595160058
+- After doing hyperparameter tuning with cross-validation for minimum sample split value
+- ![image](https://github.com/AtaErnam/CS412_Project/assets/67603284/87c50d63-f370-40ba-86d0-ced466549341)
+- After doing hyperparameter tuning with cross-validation for maximum depth of the tree
+- ![image](https://github.com/AtaErnam/CS412_Project/assets/67603284/2ffeac78-ae34-408d-81ad-93385dbc265d)
 - **Feature Impact**: Analysis of how different features influence the model's predictions.
 - **Model Tuning and Evaluation**: Insights from hyperparameter tuning and their impact on model performance.
 
