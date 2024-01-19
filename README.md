@@ -334,7 +334,7 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 - **Model Train with Processed Data**
 - Decision Tree Regressor with pre-processed data:
 - Mean Squared Error Train (MSE Train): 3.43
-- Mean Squared Error Test (MSE Test): 120.9
+- Mean Squared Error Test (MSE Test): 120
 - After doing Decision Tree Regressor with processed data:
   
 -![WhatsApp Image 2024-01-19 at 17 37 12](https://github.com/AtaErnam/CS412_Project/assets/67603284/314ac454-85d1-4402-a716-81051670a27b)
@@ -345,13 +345,27 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 - Davies-Bouldin Index:  1.06
 - Calinski-Harabasz Index:  32.2
 
+- **Model Evaluation with Catboost and Xgboost**
+- Catboost Regression and Xgboost Regression models are tuned and implented.
+- After the implementation of Catboost and Xgboost the tests results are:
+- Xgboost:
+- MAE: 6.06
+- MSE: 93.84
+- RMSE: 9.68
+- R-squared: 0.16
+- CatBoost:
+- MAE: 5.88
+- MSE: 90.46
+- RMSE: 9.51
+- R-squared: 0.19
+
 (Supporting figures and tables will be included upon availability.)
 
 ## Team Contributions
 - **[Eren Yiğit Yaşar]**: Implemented feature engineering and Word2Vec model training, also added Decision Tree Regression models.
 - **[Ata Ernam]**: Helped with developing and tunining the Decision Tree and Random Forest models.
 - **[Melike Soytürk]**: Helped with the pre-processing and worked on the Decision Tree Regressor also implemented EDA and K-means clustering.
-- 
+- **[Elif Ilgın Meydan]**: Implemented feature engineering and added Catboost Regression and Xgboost Regression model furthermore tuned the hyperparameters of both model. 
 - 
 
 ---
