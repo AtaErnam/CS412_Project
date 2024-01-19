@@ -339,12 +339,18 @@ The project's effectiveness is evaluated by comparing the predicted grades again
   
 -![WhatsApp Image 2024-01-19 at 17 37 12](https://github.com/AtaErnam/CS412_Project/assets/67603284/314ac454-85d1-4402-a716-81051670a27b)
 
+- **Clustering**
+- We employed K-means clustering. The data was first scaled to standardize the feature space, and then K-Means was applied to identify clusters.
+- Silhouette Score: 0.24
+- Davies-Bouldin Index:  1.06
+- Calinski-Harabasz Index:  32.2
+
 (Supporting figures and tables will be included upon availability.)
 
 ## Team Contributions
 - **[Eren Yiğit Yaşar]**: Implemented feature engineering and Word2Vec model training, also added Decision Tree Regression models.
 - **[Ata Ernam]**: Helped with developing and tunining the Decision Tree and Random Forest models.
-- **[Melike Soytürk]**: Helped with the pre-processing and worked on the Decision Tree Regressor also implemented EDA.
+- **[Melike Soytürk]**: Helped with the pre-processing and worked on the Decision Tree Regressor also implemented EDA and K-means clustering.
 - 
 - 
 
