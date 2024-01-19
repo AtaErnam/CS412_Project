@@ -415,7 +415,7 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 (Supporting figures and tables will be included upon availability.)
 
 ## Team Contributions
-- **[Eren Yiğit Yaşar]**: Implemented feature engineering and Word2Vec model training, also added Decision Tree Regression models.
+- **[Eren Yiğit Yaşar]**: Implemented feature engineering and Word2Vec model training, also worked on the entirety of the models used in the project.
 - **[Ata Ernam]**: Helped with developing and tunining the Decision Tree and Random Forest models.
 - **[Melike Soytürk]**: Helped with the pre-processing and worked on the Decision Tree Regressor also implemented EDA and K-means clustering.
 - **[Elif Ilgın Meydan]**: Implemented feature engineering and added Catboost Regression and Xgboost Regression model furthermore tuned the hyperparameters of both model. 
