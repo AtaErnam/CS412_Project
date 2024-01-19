@@ -405,6 +405,11 @@ The project's effectiveness is evaluated by comparing the predicted grades again
     - R-squared: 0.19416545328458779
 - **Clustering**: We employed K-means clustering for a different approach. The data was first scaled to standardize the feature space, and then K-Means was applied to identify clusters between prompts and key-words.
   *Silhouette Score: 0.24
+- **Feature Engineering**
+- Add 2 different features. One of them counts how many code blocks in responses in HTML files. We thought having code blocks led to more accurate results. Another feature is calculating similarities between the results of students who get 100 and the other students.
+- Made use of lasso regularization.
+- Calculated Weighted similarity between questions and student's prompts according to question values in terms of points.
+
 
   **In the end, the tuned XGBoost model is used to tackle the challenge given by the professor.**
 
@@ -415,7 +420,8 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 - **[Ata Ernam]**: Helped with developing and tunining the Decision Tree and Random Forest models.
 - **[Melike Soytürk]**: Helped with the pre-processing and worked on the Decision Tree Regressor also implemented EDA and K-means clustering.
 - **[Elif Ilgın Meydan]**: Implemented feature engineering and added Catboost Regression and Xgboost Regression model furthermore tuned the hyperparameters of both model. 
-- 
+- **[İrem Nur Kaya]**: Took responses from HTML files and created a separate df. Add 2 different features. Weighted question mapping df according to regarded points of questions. Used regularization methods
+
 
 ---
 
