@@ -379,30 +379,30 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 
 **Model Comparison**
 - The tuned Decision Tree Regression Model evaluation:
--- Mean Absolute Error (MAE): 6.010098870056497
--- Mean Squared Error (MSE): 97.49985104156694
--- Root Mean Squared Error (RMSE): 9.874201286259408
--- R-squared: 0.13152514179261543
+    - Mean Absolute Error (MAE): 6.010098870056497
+     - Mean Squared Error (MSE): 97.49985104156694
+     - Root Mean Squared Error (RMSE): 9.874201286259408
+     - R-squared: 0.13152514179261543
 - The tuned Random Forest Regression Model evaluation:
--- Mean Absolute Error (MAE): 6.632869780921113
--- Mean Squared Error (MSE): 101.33426044363887
--- Root Mean Squared Error (RMSE): 10.066491963123939
--- R-squared: 0.09737033923446836
+    - Mean Absolute Error (MAE): 6.632869780921113
+    - Mean Squared Error (MSE): 101.33426044363887
+    - Root Mean Squared Error (RMSE): 10.066491963123939
+    - R-squared: 0.09737033923446836
 - The tuned Gradient Boosting Regression Model evaluation:
--- Mean Absolute Error (MAE): 7.331696356055473
--- Mean Squared Error (MSE): 130.99408980409203
--- Root Mean Squared Error (RMSE): 11.445264951240405
--- R-squared: -0.16682305001792197
+    - Mean Absolute Error (MAE): 7.331696356055473
+    - Mean Squared Error (MSE): 130.99408980409203
+    - Root Mean Squared Error (RMSE): 11.445264951240405
+    - R-squared: -0.16682305001792197
 - The tuned XGBoost Regression Model evaluation:
--- Mean Absolute Error (MAE): 6.065411987304688
--- Mean Squared Error (MSE): 93.84423229699955
--- Root Mean Squared Error (RMSE): 9.687323278233237
--- R-squared: 0.16408737585690047
+    - Mean Absolute Error (MAE): 6.065411987304688
+    - Mean Squared Error (MSE): 93.84423229699955
+    - Root Mean Squared Error (RMSE): 9.687323278233237
+    - R-squared: 0.16408737585690047
 - The tuned CatBoost Regression Model evaluation:
--- Mean Absolute Error (MAE): 5.887037132298152
--- Mean Squared Error (MSE): 90.46749888773378
--- Root Mean Squared Error (RMSE): 9.511440421289185
--- R-squared: 0.19416545328458779
+    - Mean Absolute Error (MAE): 5.887037132298152
+    - Mean Squared Error (MSE): 90.46749888773378
+    - Root Mean Squared Error (RMSE): 9.511440421289185
+    - R-squared: 0.19416545328458779
   
 - **Feature Impact**: Analysis of how different features influence the model's predictions.
 - **Model Tuning and Evaluation**: Insights from hyperparameter tuning and their impact on model performance.
