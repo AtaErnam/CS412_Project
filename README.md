@@ -310,6 +310,7 @@ grid_search_decision_tree_tune = GridSearchCV(
 )
 grid_search_decision_tree_tune.fit(X_train_word2vec, y_train_word2vec)
 ```
+Here we conduct an analysis to find the best parameters for our model within a pre-defined search space.
 ```python
 #Use parameters that were the best from previous part
 model_word2vec_tuned = DecisionTreeRegressor(
@@ -360,7 +361,7 @@ print(f"Root Mean Squared Error (RMSE) Train: {rmse_word2vec_tuned_train}")
 print(f"R-squared Train: {r2_word2vec_tuned_train}")
 print(f"Predicted values for training: {y_pred_word2vec_tuned_train}")
 ```
-
+From the hyperparameter search we find the "best" parameters for the model and use it according to the code block above.
 ## Methodology
 Our project adopts a structured approach to grade homework. It involves:
 
