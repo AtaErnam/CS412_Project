@@ -344,7 +344,7 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 ## Team Contributions
 - **[Eren Yiğit Yaşar]**: Implemented feature engineering and Word2Vec model training, also added Decision Tree Regression models.
 - **[Ata Ernam]**: Helped with developing and tunining the Decision Tree and Random Forest models.
-- **[Melike Soytürk]**: Helped with the pre-processing and worked on the Decision Tree Regressor.
+- **[Melike Soytürk]**: Helped with the pre-processing and worked on the Decision Tree Regressor also implemented EDA.
 - 
 - 
 
