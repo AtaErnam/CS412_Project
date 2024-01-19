@@ -362,6 +362,7 @@ print(f"R-squared Train: {r2_word2vec_tuned_train}")
 print(f"Predicted values for training: {y_pred_word2vec_tuned_train}")
 ```
 From the hyperparameter search we find the "best" parameters for the model and use it according to the code block above.
+***The remaining models within the project were implemented in a similar fashion***
 ## Methodology
 Our project adopts a structured approach to grade homework. It involves:
 
@@ -377,44 +378,39 @@ Our project adopts a structured approach to grade homework. It involves:
 The project's effectiveness is evaluated by comparing the predicted grades against actual grades. Key observations include:
 
 **Model Comparison**
-- In our inital word2vec Decision Tree Regression Model evaluation:
-- Mean Absolute Error (MAE): 6.12
-- Mean Squared Error (MSE): 121.16
-- Root Mean Squared Error (RMSE): 11.00727032465361
-- R-squared: -0.07922640595160058
-- After doing hyperparameter tuning with cross-validation for minimum sample split value
-- ![image](https://github.com/AtaErnam/CS412_Project/assets/67603284/87c50d63-f370-40ba-86d0-ced466549341)
-- After doing hyperparameter tuning with cross-validation for maximum depth of the tree
-- ![image](https://github.com/AtaErnam/CS412_Project/assets/67603284/2ffeac78-ae34-408d-81ad-93385dbc265d)
+- The tuned Decision Tree Regression Model evaluation:
+-- Mean Absolute Error (MAE): 6.010098870056497
+-- Mean Squared Error (MSE): 97.49985104156694
+-- Root Mean Squared Error (RMSE): 9.874201286259408
+-- R-squared: 0.13152514179261543
+- The tuned Random Forest Regression Model evaluation:
+-- Mean Absolute Error (MAE): 6.632869780921113
+-- Mean Squared Error (MSE): 101.33426044363887
+-- Root Mean Squared Error (RMSE): 10.066491963123939
+-- R-squared: 0.09737033923446836
+- The tuned Gradient Boosting Regression Model evaluation:
+-- Mean Absolute Error (MAE): 7.331696356055473
+-- Mean Squared Error (MSE): 130.99408980409203
+-- Root Mean Squared Error (RMSE): 11.445264951240405
+-- R-squared: -0.16682305001792197
+- The tuned XGBoost Regression Model evaluation:
+-- Mean Absolute Error (MAE): 6.065411987304688
+-- Mean Squared Error (MSE): 93.84423229699955
+-- Root Mean Squared Error (RMSE): 9.687323278233237
+-- R-squared: 0.16408737585690047
+- The tuned CatBoost Regression Model evaluation:
+-- Mean Absolute Error (MAE): 5.887037132298152
+-- Mean Squared Error (MSE): 90.46749888773378
+-- Root Mean Squared Error (RMSE): 9.511440421289185
+-- R-squared: 0.19416545328458779
+  
 - **Feature Impact**: Analysis of how different features influence the model's predictions.
 - **Model Tuning and Evaluation**: Insights from hyperparameter tuning and their impact on model performance.
-  
-- **Model Train with Processed Data**
-- Decision Tree Regressor with pre-processed data:
-- Mean Squared Error Train (MSE Train): 3.43
-- Mean Squared Error Test (MSE Test): 120
-- After doing Decision Tree Regressor with processed data:
-  
--![WhatsApp Image 2024-01-19 at 17 37 12](https://github.com/AtaErnam/CS412_Project/assets/67603284/314ac454-85d1-4402-a716-81051670a27b)
 
 - **Clustering**
 - We employed K-means clustering. The data was first scaled to standardize the feature space, and then K-Means was applied to identify clusters.
 - Silhouette Score: 0.24
 
-
-- **Model Evaluation with Catboost and Xgboost**
-- Catboost Regression and Xgboost Regression models are tuned and implented.
-- After the implementation of Catboost and Xgboost the tests results are:
-- Xgboost:
-- MAE: 6.06
-- MSE: 93.84
-- RMSE: 9.68
-- R-squared: 0.16
-- CatBoost:
-- MAE: 5.88
-- MSE: 90.46
-- RMSE: 9.51
-- R-squared: 0.19
 
 (Supporting figures and tables will be included upon availability.)
 
