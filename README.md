@@ -190,11 +190,86 @@ temp_df_word2vec.head()
 And these are the parts were we merged them with the question mapping table
 
 - ## **Machine Learning Models**: Several models like Decision Tree Regressor, Random Forest Regressor, Gradient Boosting Regressor, XGBoost Regressor, and CatBoost Regressor are developed and evaluated.
+```python
+#Initial word2vec Decision Tree Regressor Model
+model_word2vec_init = DecisionTreeRegressor(criterion='squared_error', random_state=42)
+model_word2vec_init.fit(X_train_word2vec, y_train_word2vec)
+# word2vec Decision Tree Regressor Model evaluation
+y_pred_word2vec_init = model_word2vec_init.predict(X_test_word2vec)
+
+mae_word2vec_init = mean_absolute_error(y_test_word2vec, y_pred_word2vec_init)
+mse_word2vec_init = mean_squared_error(y_test_word2vec, y_pred_word2vec_init)
+rmse_word2vec_init = np.sqrt(mse_word2vec_init)
+r2_word2vec_init = r2_score(y_test_word2vec, y_pred_word2vec_init)
+
+print(f"Mean Absolute Error (MAE): {mae_word2vec_init}")
+print(f"Mean Squared Error (MSE): {mse_word2vec_init}")
+print(f"Root Mean Squared Error (RMSE): {rmse_word2vec_init}")
+print(f"R-squared: {r2_word2vec_init}")
+```
+This code is for the initial training of the Decision Tree Regression model, in which we make predictions according to the model.
+```python
+#Cross validation check for all min_samples_split values
+min_samples_split_arr = np.arange(2, 100, 3)
+
+train_error_arr_min_samples_split = []
+val_error_arr_min_samples_split = []
+for min_samples_split in min_samples_split_arr:
+
+  # Conducting cross validation
+  skf = KFold(n_splits=5)
+
+  # Arrays to save errors for each fold split
+  fold_train_error_arr = []
+  fold_val_error_arr = []
+  for i, (train_idx, val_idx) in enumerate(skf.split(X_train_word2vec, y_train_word2vec)):
+    xt = X_train_word2vec[train_idx]
+    yt = y_train_word2vec[train_idx]
+
+    xv = X_train_word2vec[val_idx]
+    yv = y_train_word2vec[val_idx]
+
+    model = DecisionTreeRegressor(
+        criterion='squared_error',
+        random_state=42,
+        min_samples_split=min_samples_split)
+
+    # Fitting the model to be cross validated
+    model.fit(xt, yt)
+
+    # Getting predictions
+    y_pred_train = model.predict(xt)
+    y_pred_val = model.predict(xv)
+
+    # Computing error
+
+    # Train
+    train_error = mean_squared_error(y_pred_train, yt)
+    fold_train_error_arr.append(train_error)
+
+    # Validation
+    valid_error = mean_squared_error(y_pred_val, yv)
+    fold_val_error_arr.append(valid_error)
+
+  # After running all splits, we compute the avgof errors in
+  # the cross-validation run
+  train_score_mean = np.mean(fold_train_error_arr)
+  val_score_mean = np.mean(fold_val_error_arr)
+
+
+  train_error_arr_min_samples_split.append(train_score_mean)
+  val_error_arr_min_samples_split.append(val_score_mean)
+```
+Then, we do a hyperparameter tuning via cross-validation check for all minimum sample split values to get the validation error. This code is essential for optimizing model and ensuring their generalizability to unseen data.
+
+
+
+
 
 - ## **Evaluation and Tuning**: Model evaluation using metrics like Mean Squared Error (MSE) and R-squared, and hyperparameter tuning using GridSearchCV.
 
 ## Methodology
-The project adopts a structured approach to grade homework. It involves:
+Our project adopts a structured approach to grade homework. It involves:
 
 1. Parsing HTML files to extract conversation texts.
 2. Performing prompt matching using and Word2Vec methods.
@@ -213,10 +288,11 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 (Supporting figures and tables will be included upon availability.)
 
 ## Team Contributions
-- **[Team Member 1]**: Focused on HTML data parsing and initial data preprocessing.
-- **[Team Member 2]**: Implemented feature engineering and Word2Vec model training.
-- **[Team Member 3]**: Developed and tuned the Decision Tree and Random Forest models.
+- **[Eren Yiğit Yaşar]**: Implemented feature engineering and Word2Vec model training, also added Decision Tree Regression models.
+- **[Ata Ernam]**: Helped with developing and tunining the Decision Tree and Random Forest models.
 - **[Team Member 4]**: Conducted model evaluation, comparison, and documentation.
+- 
+- 
 
 ---
 
