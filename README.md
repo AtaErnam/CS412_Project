@@ -403,13 +403,9 @@ The project's effectiveness is evaluated by comparing the predicted grades again
     - Mean Squared Error (MSE): 90.46749888773378
     - Root Mean Squared Error (RMSE): 9.511440421289185
     - R-squared: 0.19416545328458779
-  
-- **Feature Impact**: Analysis of how different features influence the model's predictions.
-- **Model Tuning and Evaluation**: Insights from hyperparameter tuning and their impact on model performance.
-
 - **Clustering**: We employed K-means clustering for a different approach. The data was first scaled to standardize the feature space, and then K-Means was applied to identify clusters between prompts and key-words.
   *Silhouette Score: 0.24
-
+**In the end, the tuned XGBoost model is used to tackle the challenge given by the professor.**
 
 (Supporting figures and tables will be included upon availability.)
 
