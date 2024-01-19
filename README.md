@@ -405,6 +405,7 @@ The project's effectiveness is evaluated by comparing the predicted grades again
     - R-squared: 0.19416545328458779
 - **Clustering**: We employed K-means clustering for a different approach. The data was first scaled to standardize the feature space, and then K-Means was applied to identify clusters between prompts and key-words.
   *Silhouette Score: 0.24
+
   **In the end, the tuned XGBoost model is used to tackle the challenge given by the professor.**
 
 (Supporting figures and tables will be included upon availability.)
