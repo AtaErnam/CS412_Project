@@ -400,8 +400,7 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 - **Clustering**
 - We employed K-means clustering. The data was first scaled to standardize the feature space, and then K-Means was applied to identify clusters.
 - Silhouette Score: 0.24
-- Davies-Bouldin Index:  1.06
-- Calinski-Harabasz Index:  32.2
+
 
 - **Model Evaluation with Catboost and Xgboost**
 - Catboost Regression and Xgboost Regression models are tuned and implented.
