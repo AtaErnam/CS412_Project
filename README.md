@@ -329,6 +329,11 @@ The project's effectiveness is evaluated by comparing the predicted grades again
 - ![image](https://github.com/AtaErnam/CS412_Project/assets/67603284/2ffeac78-ae34-408d-81ad-93385dbc265d)
 - **Feature Impact**: Analysis of how different features influence the model's predictions.
 - **Model Tuning and Evaluation**: Insights from hyperparameter tuning and their impact on model performance.
+- In our model with initial data preprocessing:
+- Mean Squared Error Train (MSE Train): 3.43
+- Mean Squared Error Test (MSE Test): 120.9
+- After doing Decision Tree Regressor with processed data:
+- 
 
 (Supporting figures and tables will be included upon availability.)
 
